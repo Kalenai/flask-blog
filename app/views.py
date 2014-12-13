@@ -14,7 +14,7 @@ def login():
     form = LoginForm()
     return render_template(
         'login.html',
-        form = form
+        form=form
     )
 
 @app.route('/post', methods=['GET', 'POST'])
@@ -22,5 +22,5 @@ def post():
     form = PostForm()
     return render_template(
         'post.html',
-        form = form
+        form=form
     )
