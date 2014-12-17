@@ -1,16 +1,20 @@
 {% extends 'base.html' %}
-{% block title %}Login{% endblock %}
+{% block title %}Register{% endblock %}
 {% block body %}
-  <form action="", method="post" name="login">
+
+  <form action="", method="post" name="register">
     {{  form.hidden_tag()  }}
     <div class="row">
       {{  form.username  }}
     </div>
     <div class="row">
+      {{  form.email  }}
+    </div>
+    <div class="row">
       {{  form.password  }}
     </div>
     <div class="row">
-      <input type="submit" value="Sign In">
+      <input type="submit" value="Register">
     </div>
   </form>
 {% endblock %}

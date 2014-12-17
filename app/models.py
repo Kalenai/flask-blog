@@ -9,6 +9,18 @@ class User(db.Model):
     email = db.Column(db.String(100), unique=True)
     about = db.Column(db.Text)
 
+    def is_authenticated(self):
+        return True
+
+    def is_active(self):
+        return True
+
+    def is_anonymous(self):
+        return True
+
+    def get_id(self):
+        return unicode(self.id)
+
     def hash_password(self, password):
         self.password_hash = pwd_context.encrypt(password, scheme="sha512_crypt")
 
