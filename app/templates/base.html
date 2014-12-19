@@ -22,13 +22,21 @@
     <section class="top-bar-section">
       <ul class="right">
         <li class="divider"></li>
+        <li><a href="{{  url_for('index')  }}">Home</a></li>
+        <li class="divider"></li>
         <li><a href="#">These</a></li>
         <li class="divider"></li>
-        <li><a href="#">Links</a></li>
+        <li><a href="#">Still</a></li>
         <li class="divider"></li>
         <li><a href="#">Go</a></li>
         <li class="divider"></li>
         <li><a href="#">Nowhere</a></li>
+        {% if g.user.is_authenticated %}
+          <li class="divider"></li>
+          <li><a href="{{  url_for('logout')  }}">Logout</a></li>
+          <li class="divider"></li>
+          <li><a href="#">{{  g.user.username  }}</a></li> <!--TODO - should route to user's homepage once implemented-->
+        {% endif %}
       </ul>
     </section>
   </nav>
@@ -39,10 +47,15 @@
       </ul>
     </div>
     <div class="small-10 columns">
+      <br>
+      {% include 'flash.html' %}
+      <br>
       {% block body %}{% endblock %}
     </div>
   </div>
   <script src="{{ url_for('.static', filename='js/vendor/jquery.js') }}"></script>
   <script src="{{ url_for('.static', filename='js/foundation.min.js') }}"></script>
+  <script src="{{ url_for('.static', filename='js/foundation.alert.js') }}"></script>
+  <script src="{{ url_for('.static', filename='js/app.js') }}"></script>
 </body>
 </html>

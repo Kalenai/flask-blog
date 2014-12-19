@@ -2,19 +2,19 @@
 {% block title %}Register{% endblock %}
 {% block body %}
 
-  <form action="", method="post" name="register">
+  <form action="" method="post" name="register">
     {{  form.hidden_tag()  }}
     <div class="row">
-      {{  form.username  }}
+      {{  form.username(placeholder="Username")  }}
     </div>
     <div class="row">
-      {{  form.email  }}
+      {{  form.email(placeholder="Email")  }}
     </div>
     <div class="row">
-      {{  form.password  }}
+      {{  form.password(placeholder="Password")  }}
     </div>
     <div class="row">
-      <input type="submit" value="Register">
+      <input type="submit" value="Register" class="button">
     </div>
   </form>
 {% endblock %}
