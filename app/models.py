@@ -16,7 +16,7 @@ class User(db.Model):
         return True
 
     def is_anonymous(self):
-        return True
+        return False
 
     def get_id(self):
         return unicode(self.id)

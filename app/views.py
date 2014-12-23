@@ -27,6 +27,7 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         username = User.query.filter_by(username=form.username.data).first()
+        # TODO - make username matching case-insensitive
         if not username or not username.verify_password(form.password.data):
             flash("That username and password combination do not match our records.  Please try again.")
         else:
@@ -72,4 +73,18 @@ def post():
     return render_template(
         'post.html',
         form=form
+    )
+
+@app.route('/user/<username>')
+def user(username):
+    user = User.query.filter_by(username=username).first()
+    if user == None:
+        flash_errors(
+            'The user %s is not found.  Ensure you typed the username correctly and try again.' % user
+        )
+        return redirect(url_for('index'))
+    # TODO - Show the user's blog posts with pagination
+    return render_template(
+        'user.html',
+        user=user,
     )

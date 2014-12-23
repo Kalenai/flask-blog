@@ -31,11 +31,14 @@
         <li><a href="#">Go</a></li>
         <li class="divider"></li>
         <li><a href="#">Nowhere</a></li>
-        {% if g.user.is_authenticated %}
+        {% if g.user.is_authenticated() %}
           <li class="divider"></li>
           <li><a href="{{  url_for('logout')  }}">Logout</a></li>
           <li class="divider"></li>
           <li><a href="#">{{  g.user.username  }}</a></li> <!--TODO - should route to user's homepage once implemented-->
+        {% else %}
+          <li class="divider"></li>
+          <li><a href="{{  url_for('login')  }}">Login</a></li>
         {% endif %}
       </ul>
     </section>
