@@ -8,6 +8,8 @@ class User(db.Model):
     password_hash = db.Column(db.String(128))
     email = db.Column(db.String(100), unique=True)
     about = db.Column(db.Text)
+    posts = db.relationship('Post', backref='author', lazy='dynamic')
+
 
     def is_authenticated(self):
         return True
@@ -34,6 +36,7 @@ class Post(db.Model):
     __tablename__ = 'posts'
     id = db.Column(db.Integer, primary_key=True)
     timestamp = db.Column(db.DateTime)
+    title = db.Column(db.String(100))
     post_body = db.Column(db.Text)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 

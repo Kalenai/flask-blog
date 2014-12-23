@@ -1,9 +1,10 @@
 from flask import render_template, g, redirect, url_for, session, request, flash
-from flask.ext.login import login_user, logout_user, current_user
+from flask.ext.login import login_user, logout_user, current_user, login_required
 from app import app, db, login_manager
 from models import User, Post
 from forms import LoginForm, PostForm, RegistrationForm
 from utilities import flash_errors
+from datetime import datetime
 
 @login_manager.user_loader
 def load_user(id):
@@ -68,8 +69,22 @@ def register():
     )
 
 @app.route('/post', methods=['GET', 'POST'])
+@login_required
 def post():
     form = PostForm()
+    if form.validate_on_submit():
+        new_post = Post(
+            timestamp=datetime.utcnow(),
+            title=form.title.data,
+            post_body=form.post.data,
+            author=g.user
+        )
+        db.session.add(new_post)
+        db.session.commit()
+        flash('Your post was successfully submitted!')
+        return redirect(url_for('user', username=g.user.username))
+    else:
+        flash_errors(form)
     return render_template(
         'post.html',
         form=form

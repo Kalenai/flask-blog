@@ -33,9 +33,9 @@
         <li><a href="#">Nowhere</a></li>
         {% if g.user.is_authenticated() %}
           <li class="divider"></li>
-          <li><a href="{{  url_for('logout')  }}">Logout</a></li>
+          <li><a href="{{  url_for('user', username=g.user.username)  }}">{{  g.user.username  }}</a></li>
           <li class="divider"></li>
-          <li><a href="#">{{  g.user.username  }}</a></li> <!--TODO - should route to user's homepage once implemented-->
+          <li><a href="{{  url_for('logout')  }}">Logout</a></li>
         {% else %}
           <li class="divider"></li>
           <li><a href="{{  url_for('login')  }}">Login</a></li>
