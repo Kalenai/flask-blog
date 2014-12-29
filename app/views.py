@@ -5,6 +5,7 @@ from models import User, Post
 from forms import LoginForm, PostForm, RegistrationForm
 from utilities import flash_errors
 from datetime import datetime
+from config import POSTS_PER_PAGE
 
 @login_manager.user_loader
 def load_user(id):
@@ -91,15 +92,18 @@ def post():
     )
 
 @app.route('/user/<username>')
-def user(username):
+@app.route('/user/<username>/<int:page>')
+def user(username, page=1):
     user = User.query.filter_by(username=username).first()
-    if user == None:
+    if user is None:
         flash_errors(
             'The user %s is not found.  Ensure you typed the username correctly and try again.' % user
         )
         return redirect(url_for('index'))
-    # TODO - Show the user's blog posts with pagination
+    posts = user.posts.paginate(page, POSTS_PER_PAGE, False)
+    # TODO - makes posts display in the proper order
     return render_template(
         'user.html',
         user=user,
+        posts=posts
     )

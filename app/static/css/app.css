@@ -12,3 +12,11 @@
 /*.side-nav {*/
   /*background: #626262;*/
 /*}*/
+
+.post-div {
+  background: #e1e1e1;
+}
+
+small.post-timestamp {
+  font-size: 40%;
+}

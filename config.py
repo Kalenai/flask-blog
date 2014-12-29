@@ -4,3 +4,6 @@ SECRET_KEY = 'secret-key-of-secretness' #Placeholder; replace with a secure key 
 
 #Database Config
 SQLALCHEMY_DATABASE_URI = 'postgresql://devuser:devpass@localhost:5432/devdb'
+
+#Pagination
+POSTS_PER_PAGE = 3
