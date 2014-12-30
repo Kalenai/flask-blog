@@ -15,6 +15,31 @@ def load_user(id):
 def before_request():
     g.user = current_user
 
+@app.errorhandler(401)
+def forbidden_error(error):
+    return render_template(
+        '401.html',
+    ), 401
+
+@app.errorhandler(403)
+def forbidden_error(error):
+    return render_template(
+        '403.html',
+    ), 403
+
+@app.errorhandler(404)
+def not_found_error(error):
+    return render_template(
+        '404.html',
+    ), 404
+
+@app.errorhandler(500)
+def internal_server_error(error):
+    db.session.rollback()
+    return render_template(
+        '500.html',
+    ), 500
+
 @app.route('/')
 @app.route('/index')
 def index():
@@ -100,8 +125,7 @@ def user(username, page=1):
             'The user %s is not found.  Ensure you typed the username correctly and try again.' % user
         )
         return redirect(url_for('index'))
-    posts = user.posts.paginate(page, POSTS_PER_PAGE, False)
-    # TODO - makes posts display in the proper order
+    posts = user.posts.order_by(Post.timestamp.desc()).paginate(page, POSTS_PER_PAGE, False)
     return render_template(
         'user.html',
         user=user,

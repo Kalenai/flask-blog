@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Not Found{% endblock %}
+
+{% block body %}
+  <h1>404 Not Found</h1>
+  <hr>
+  <p>
+    This page doesn't seem to exist.
+    <br>
+    Check to make sure you typed the URL correctly.
+    <br><br>
+    Click <a href="{{  url_for('index')  }}">here</a> to return to the homepage.
+  </p>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}Unauthorized{% endblock %}
+
+{% block body %}
+  <h1>401 Unauthorized</h1>
+  <hr>
+  <p>
+    Looks like you're not allowed to visit this page.
+    <br>
+    If you think that you should be able to, please make sure you're logged in, and try again.
+    <br><br>
+    Click <a href="{{  url_for('login')  }}">here</a> to login,
+    <br>
+    or click <a href="{{  url_for('index')  }}">here</a> to return to the homepage.
+  </p>
+{% endblock %}
