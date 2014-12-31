@@ -1,6 +1,7 @@
 from app import db
 from passlib.apps import custom_app_context as pwd_context
 
+
 class User(db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
@@ -9,7 +10,6 @@ class User(db.Model):
     email = db.Column(db.String(100), unique=True)
     about = db.Column(db.Text)
     posts = db.relationship('Post', backref='author', lazy='dynamic')
-
 
     def is_authenticated(self):
         return True
@@ -31,6 +31,7 @@ class User(db.Model):
 
     def __repr__(self):
         return '<User %r>' % self.username
+
 
 class Post(db.Model):
     __tablename__ = 'posts'

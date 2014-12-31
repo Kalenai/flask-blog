@@ -7,13 +7,16 @@ from utilities import flash_errors
 from datetime import datetime
 from config import POSTS_PER_PAGE
 
+
 @login_manager.user_loader
 def load_user(id):
     return User.query.get(int(id))
 
+
 @app.before_request
 def before_request():
     g.user = current_user
+
 
 @app.errorhandler(401)
 def forbidden_error(error):
@@ -21,17 +24,20 @@ def forbidden_error(error):
         '401.html',
     ), 401
 
+
 @app.errorhandler(403)
 def forbidden_error(error):
     return render_template(
         '403.html',
     ), 403
 
+
 @app.errorhandler(404)
 def not_found_error(error):
     return render_template(
         '404.html',
     ), 404
+
 
 @app.errorhandler(500)
 def internal_server_error(error):
@@ -40,12 +46,14 @@ def internal_server_error(error):
         '500.html',
     ), 500
 
+
 @app.route('/')
 @app.route('/index')
 def index():
     return render_template(
         'index.html'
     )
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -68,10 +76,12 @@ def login():
         form=form
     )
 
+
 @app.route('/logout')
 def logout():
     logout_user()
     return redirect(url_for('index'))
+
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -94,6 +104,7 @@ def register():
         form=form
     )
 
+
 @app.route('/post', methods=['GET', 'POST'])
 @login_required
 def post():
@@ -115,6 +126,7 @@ def post():
         'post.html',
         form=form
     )
+
 
 @app.route('/user/<username>')
 @app.route('/user/<username>/<int:page>')
