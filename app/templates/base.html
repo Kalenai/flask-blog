@@ -13,7 +13,8 @@
   {% endblock %}
 </head>
 <body>
-  <nav class="top-bar" data-topbar role="navigation">
+  <!--Navigation Bar-->
+  <nav class="top-bar" data-options="is_hover: false" data-topbar role="navigation">
     <ul class="title-area">
       <li class="name">
         <h1><a href="{{ url_for('index') }}">Flask Blog</a></h1>
@@ -21,28 +22,29 @@
     </ul>
     <section class="top-bar-section">
       <ul class="right">
-        <li class="divider"></li>
-        <li><a href="{{  url_for('index')  }}">Home</a></li>
-        <li class="divider"></li>
-        <li><a href="#">These</a></li>
-        <li class="divider"></li>
-        <li><a href="#">Still</a></li>
-        <li class="divider"></li>
-        <li><a href="#">Go</a></li>
-        <li class="divider"></li>
-        <li><a href="#">Nowhere</a></li>
         {% if g.user.is_authenticated() %}
           <li class="divider"></li>
-          <li><a href="{{  url_for('user', username=g.user.username)  }}">{{  g.user.username  }}</a></li>
+          <li class="has-dropdown">
+            <a href="{{  url_for('user', username=g.user.username)  }}">{{  g.user.username  }}</a>
+            <ul class="dropdown">
+              <li><a href="{{  url_for('user', username=g.user.username)  }}">Profile</a></li>
+              <li><a href="{{  url_for('post')  }}">Create New Post</a></li>
+              <li><a href="#">Settings</a></li>  <!--TODO - Insert link to profile settings-->
+              <li><a href="{{  url_for('logout')  }}">Logout</a></li>
+            </ul>
+          </li>
           <li class="divider"></li>
-          <li><a href="{{  url_for('logout')  }}">Logout</a></li>
         {% else %}
           <li class="divider"></li>
           <li><a href="{{  url_for('login')  }}">Login</a></li>
+          <li class="divider"></li>
+          <li><a href="{{  url_for('register')  }}">Register</a></li>
         {% endif %}
       </ul>
     </section>
   </nav>
+
+  <!--Page Content-->
   <div class="row">
     <div class="small-2 columns">
       <ul class="side-nav" role="navigation" title="Post List">
@@ -56,6 +58,8 @@
       {% block body %}{% endblock %}
     </div>
   </div>
+
+  <!--Scripts-->
   <script src="{{ url_for('.static', filename='js/vendor/jquery.js') }}"></script>
   <script src="{{ url_for('.static', filename='js/foundation.min.js') }}"></script>
   <script src="{{ url_for('.static', filename='js/foundation.alert.js') }}"></script>

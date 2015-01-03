@@ -12,7 +12,7 @@ class UsernameValidation(object):
         Error message to raise in case of a validation error.
     """
     def __init__(self, message=None):
-        if message is None:
+        if not message:
             message = u'That username is already in use.'
             self.message = message
 
@@ -30,7 +30,7 @@ class EmailValidation(object):
         Error message to raise in case of a validation error.
     """
     def __init__(self, message=None):
-        if message is None:
+        if not message:
             message = u'That email is already in use.'
             self.message = message
 

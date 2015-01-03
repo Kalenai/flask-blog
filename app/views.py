@@ -1,4 +1,4 @@
-from flask import render_template, g, redirect, url_for, session, request, flash
+from flask import render_template, g, redirect, url_for, flash
 from flask.ext.login import login_user, logout_user, current_user, login_required
 from app import app, db, login_manager
 from models import User, Post
@@ -9,8 +9,8 @@ from config import POSTS_PER_PAGE
 
 
 @login_manager.user_loader
-def load_user(id):
-    return User.query.get(int(id))
+def load_user(user_id):
+    return User.query.get(int(user_id))
 
 
 @app.before_request
@@ -143,3 +143,8 @@ def user(username, page=1):
         user=user,
         posts=posts
     )
+
+@app.route('/settings')
+@login_required
+def settings():
+    pass  # TODO - Implement user settings.  Maybe with different tabs?
