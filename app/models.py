@@ -5,10 +5,12 @@ from passlib.apps import custom_app_context as pwd_context
 class User(db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(32), unique=True)
+    username = db.Column(db.String(20), unique=True)
     password_hash = db.Column(db.String(128))
     email = db.Column(db.String(100), unique=True)
     about = db.Column(db.Text)
+    gender = db.Column(db.Text)
+    location = db.Column(db.Text)
     posts = db.relationship('Post', backref='author', lazy='dynamic')
 
     def is_authenticated(self):

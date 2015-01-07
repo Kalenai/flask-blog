@@ -12,7 +12,13 @@
       {{  form.password(placeholder="Password")  }}
     </div>
     <div class="row">
-      <input type="submit" value="Sign In"  class="button">
+      <div class="small-3 columns">
+        {{  form.remember_me  }}
+        <label for="remember_me">Remember Me</label>
+      </div>
+      <div class="small-9 columns">
+        <input type="submit" value="Sign In"  class="button">
+      </div>
     </div>
   </form>
 {% endblock %}

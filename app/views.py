@@ -1,8 +1,8 @@
-from flask import render_template, g, redirect, url_for, flash
-from flask.ext.login import login_user, logout_user, current_user, login_required
+from flask import render_template, g, redirect, request, url_for, flash
+from flask.ext.login import login_user, logout_user, current_user, login_required, fresh_login_required, login_fresh
 from app import app, db, login_manager
 from models import User, Post
-from forms import LoginForm, PostForm, RegistrationForm
+from forms import LoginForm, PostForm, RegistrationForm, SettingsForm
 from utilities import flash_errors
 from datetime import datetime
 from config import POSTS_PER_PAGE
@@ -57,20 +57,22 @@ def index():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    if g.user is not None and g.user.is_authenticated():
+    if g.user is not None and g.user.is_authenticated() and login_fresh():
         return redirect(url_for('index'))
-    form = LoginForm()
-    if form.validate_on_submit():
-        username = User.query.filter_by(username=form.username.data).first()
-        # TODO - make username matching case-insensitive
-        if not username or not username.verify_password(form.password.data):
-            flash("That username and password combination do not match our records.  Please try again.")
-        else:
-            login_user(username)
-            flash("Logged in successfully.  Welcome, %s!" % username.username)
-            return redirect(url_for('index'))
     else:
-        flash_errors(form)
+        form = LoginForm()
+        if form.validate_on_submit():
+            username = User.query.filter_by(username=form.username.data).first()
+            # TODO - make username matching case-insensitive
+            if not username or not username.verify_password(form.password.data):
+                flash("That username and password combination do not match our records.  Please try again.")
+            else:
+                remember_me = form.remember_me.data
+                login_user(username, remember=remember_me)
+                flash("Logged in successfully.  Welcome, %s!" % username.username)
+                return redirect(url_for('index'))
+        else:
+            flash_errors(form)
     return render_template(
         'login.html',
         form=form
@@ -133,7 +135,7 @@ def post():
 def user(username, page=1):
     user = User.query.filter_by(username=username).first()
     if user is None:
-        flash_errors(
+        flash(
             'The user %s is not found.  Ensure you typed the username correctly and try again.' % user
         )
         return redirect(url_for('index'))
@@ -144,7 +146,20 @@ def user(username, page=1):
         posts=posts
     )
 
-@app.route('/settings')
-@login_required
+
+@app.route('/settings', methods=['GET', 'POST'])
+@fresh_login_required
 def settings():
-    pass  # TODO - Implement user settings.  Maybe with different tabs?
+    form = SettingsForm()
+    if form.validate_on_submit():
+        pass  # TODO - Make this actually do something
+    elif request.method is not 'POST':
+        form.username.data = g.user.username
+        form.email.data = g.user.email
+        form.gender.data = g.user.gender  # FIXME - Currently doesn't fill in radio button
+        form.location.data = g.user.location
+        form.about.data = g.user.about
+    return render_template(
+        'settings.html',
+        form=form
+    )

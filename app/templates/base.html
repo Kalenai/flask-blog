@@ -29,7 +29,7 @@
             <ul class="dropdown">
               <li><a href="{{  url_for('user', username=g.user.username)  }}">Profile</a></li>
               <li><a href="{{  url_for('post')  }}">Create New Post</a></li>
-              <li><a href="#">Settings</a></li>  <!--TODO - Insert link to profile settings-->
+              <li><a href="{{  url_for('settings')  }}">Settings</a></li>
               <li><a href="{{  url_for('logout')  }}">Logout</a></li>
             </ul>
           </li>
